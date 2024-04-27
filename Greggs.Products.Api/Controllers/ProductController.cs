@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Greggs.Products.Api.DataAccess;
 using Greggs.Products.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -18,23 +19,20 @@ public class ProductController : ControllerBase
 
     private readonly ILogger<ProductController> _logger;
 
-    public ProductController(ILogger<ProductController> logger)
+    private IDataAccess<Product> _productAccess;
+
+    public ProductController(ILogger<ProductController> logger, IDataAccess<Product> productAccess)
     {
         _logger = logger;
+        
+        _productAccess = productAccess;
+        
     }
 
     [HttpGet]
     public IEnumerable<Product> Get(int pageStart = 0, int pageSize = 5)
     {
-        if (pageSize > Products.Length)
-            pageSize = Products.Length;
-
-        var rng = new Random();
-        return Enumerable.Range(1, pageSize).Select(index => new Product
-            {
-                PriceInPounds = rng.Next(0, 10),
-                Name = Products[rng.Next(Products.Length)]
-            })
+        return _productAccess.List(pageStart, pageSize)
             .ToArray();
     }
 }
