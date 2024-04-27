@@ -26,16 +26,7 @@ public class FanaticTests
     [Fact]
     public async Task GetValuesFromDataAccess()
     {
-        var message = new HttpRequestMessage();
-        var pagination = JsonConvert.SerializeObject(new
-        {
-            pageStart = 0,
-            pageSize = 5
-        });
-        message.RequestUri = new Uri("/product", UriKind.Relative);
-
-        message.Content = new StringContent(pagination);
-        var response = await _client.SendAsync(message);
+        var response = await _client.GetAsync("/Product?pageStart=0&pageSize=6"); 
         response.EnsureSuccessStatusCode();
         var responseString = await response.Content.ReadAsStringAsync();
         Assert.Contains("Sausage Roll", responseString);
