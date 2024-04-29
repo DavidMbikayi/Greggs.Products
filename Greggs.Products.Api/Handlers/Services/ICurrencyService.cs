@@ -1,6 +1,6 @@
 namespace Greggs.Products.Api.Handlers.Services;
 
-public class ICurrencyService
+public interface ICurrencyService
 {
-    
+    ConversionResult ConvertToEuros(double amount, string currency);
 }
