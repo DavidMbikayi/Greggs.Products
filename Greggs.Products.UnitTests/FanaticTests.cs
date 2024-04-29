@@ -1,10 +1,8 @@
-using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Greggs.Products.Api;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
-using Newtonsoft.Json;
 using Xunit;
 
 namespace Greggs.Products.UnitTests;

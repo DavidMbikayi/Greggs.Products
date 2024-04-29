@@ -1,4 +1,5 @@
 using Greggs.Products.Api.DataAccess;
+using Greggs.Products.Api.Handlers.Services;
 using Greggs.Products.Api.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,6 +17,9 @@ public class Startup
         services.AddSwaggerGen();
 
         services.AddScoped<IDataAccess<Product>, ProductAccess>();
+        services.AddTransient<ICurrencyService, CurrencyService > ();
+
+        services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(Startup).Assembly));
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
