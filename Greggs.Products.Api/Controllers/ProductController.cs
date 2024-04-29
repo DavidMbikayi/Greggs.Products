@@ -33,13 +33,13 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IEnumerable<Product>> Get(int pageStart = 0, int pageSize = 5)
+    public async Task<IEnumerable<Product>> Get(int pageStart = 0, int pageSize = 5, string currency = "GBP")
     {
         var request = new GetProductsRequest
         {
             Start = pageStart,
             PageSize = pageSize,
-            Currency = "GBP"
+            Currency = currency
         };
         
         var response = await _mediator.Send(request);

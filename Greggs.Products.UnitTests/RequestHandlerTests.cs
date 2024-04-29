@@ -26,14 +26,26 @@ public class RequestHandlerUnitTests
     public async Task GetProductsRequestHandler_ShouldReturnProducts()
     {
         // Arrange
-        var request = _fixture.Create<GetProductsRequest>();
+        var request = new GetProductsRequest()
+        {
+            Currency = "EUR",
+            PageSize = 10,
+            Start = 0
+        };
+        
         var products = _fixture.CreateMany<Product>().ToList();
-        var currencyService = _fixture.Create<Fake<ICurrencyService>>();
+        var currencyService = _fixture.Create<CurrencyService>();
         var productRepository = _fixture.Create<Fake<IDataAccess<Product>>>();
         var logger = _fixture.Create<Fake<ILogger<GetProducts>>>();
-        var sut = new GetProducts(productRepository.FakedObject, logger.FakedObject);
+        var sut = new GetProducts(
+            productRepository.FakedObject, 
+            currencyService,
+            logger.FakedObject
+            );
         
-        productRepository.CallsTo( x => x.List(request.Start, request.PageSize)).Returns(products);
+        productRepository.CallsTo( x => 
+            x.List(request.Start, request.PageSize))
+            .Returns(products);
         
         
         // Act

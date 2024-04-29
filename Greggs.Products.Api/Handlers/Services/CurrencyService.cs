@@ -5,16 +5,22 @@ using Greggs.Products.Api.Models;
 
 namespace Greggs.Products.Api.Handlers.Services;
 
-public record ConversionResult(bool Success, double Amount);
+public record ConversionResult(bool Success, decimal Amount);
 public class CurrencyService : ICurrencyService
 {
     List<CurrencyPair> _currencyPairs = new List<CurrencyPair>
     {
-        new CurrencyPair {From = "GBP", To = "EUR", Rate = 1.1},
+        new CurrencyPair {From = "GBP", To = "EUR", Rate = 1.11m},
 
     };
-    public ConversionResult ConvertToEuros(double amount, string currency)
+    public ConversionResult Convert(decimal amount, string currency)
     {
+        if(currency == "GBP")
+        {
+            return new ConversionResult(true, amount);
+        }
+        
+        
         var currencyPair = _currencyPairs
             .FirstOrDefault(x => x.From == "GBP" && x.To == currency);
         
